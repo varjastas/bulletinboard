@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+{% load bootstrap4 %}
+{% load static %}
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Home{% endblock %} - Bulletin Board</title>
+        {% bootstrap_css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+        {% bootstrap_javascript jquery='slim' %}
+    </head>
+    <body class="container-fluid">
+        <header class="mb-4">
+            <h1 class="display-1 text-center">Advertisements </h1>
+        </header>
+        <div class="row">
+            <ul class="col nav justify-content-end border">
+                <li class="nav-item"><a class="nav-link" href="{% url 'main:register' %}">Registration</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Profile</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="{% url 'main:profile' %}">My advertisements</a>
+                            <a class="dropdown-item" href="{% url 'main:profile_change'%}">Change personal information</a>
+                            <a class="dropdown-item" href="{% url 'main:password_change' %}">Change password</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'main:logout' %}">Log out</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'main:profile_delete' %}">Delete</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:login' %}">Log in</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="row">
+            <nav class="col-md-auto nav flex-column border">
+                <a class="nav-link root" href="{% url 'main:index' %}">Home</a>
+                {% for rubric in rubrics %}
+                    {% ifchanged rubric.super_rubric.pk %}
+                        <span class="nav-link root font-weight-bold">{{ rubric.super_rubric.name }}</span>
+                    {% endifchanged %}
+                    <a class="nav-link" href="{% url 'main:by_rubric' pk=rubric.pk %}">{{ rubric.name }}</a>
+                {% endfor %}
+                <a class="nav-link root" href="{% url 'main:other' page='about' %}">About site</a>
+            </nav>
+            <section class="col border py-2">
+                {% bootstrap_messages %}
+                {% block content %}
+                {% endblock %}
+            </section>
+        </div>
+        <footer class="mt-3">
+            <p class="text-right font-italic">&copy; Anything you ever want</p>
+        </footer>
+    </body>
+</html>

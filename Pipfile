@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django-bootstrap4 = "*"
+easy-thumbnails = "*"
+django-cleanup = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
+django = "*"
+django-simple-captcha = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "*"
